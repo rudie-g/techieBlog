@@ -5,12 +5,12 @@ const withAuth = require('../utils/auth');
 router.get('/', async (req, res) => {
     try{
 
-        const allNewPostData = await Post.findAll();
+        const allPostsData = await Post.findAll();
 
-        const newPostData = allNewPostData.map((newpost) => newpost.get({ plain: true }));
+        const postData = allPostsData.map((newpost) => newpost.get({ plain: true }));
 
         res.render('homepage', {
-            newPostData,
+            postData,
             loggedIn: req.session.loggedIn
         });
     } catch (err) {
@@ -45,11 +45,11 @@ router.get('/dashboard', withAuth, async (req, res) => {
     const currId = req.session.user_id;
     try{
 
-        const postRequestData = await Post.findAll({
+        const postRequest = await Post.findAll({
             where: {user_id: currId},
         });
 
-        const postData = postRequestData.map((poster) => poster.get({ plain: true }));
+        const postData = postRequest.map((poster) => poster.get({ plain: true }));
 
 
         res.render('dashboard',
